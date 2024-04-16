@@ -14,7 +14,7 @@ bool CheckPrime(int p) { // проверка, является ли модуль
     return true;
 }
 
-int algorithm(int a, int x, int p) { // Алгоритм нахождения остатка
+int algorithm1(int a, int x, int p) { // Алгоритм нахождения остатка
 
     int nums[100]; // инициализируем массив чисел, в котором хранятся уникальные остатки
 
@@ -41,6 +41,46 @@ int algorithm(int a, int x, int p) { // Алгоритм нахождения о
     return result;
 }
 
+int algorithm2(int a, int x, int p) {
+
+    int nums[100]; // инициализируем массив чисел, в котром хранится числовой ряд a
+
+    int stepen = 1; // для проверки, чтобы степень не превышала себя
+    nums[0] = a % p; // присваиваем 1 элементу значение 1 степени
+    int k=0; // условие выхода
+    int i=1; // счётчик
+    while(k == 0) {
+        stepen = stepen * 2; // возводим степень в квадрат
+        if (stepen <= x) {
+            nums[i] = (nums[i-1] * nums[i-1]) % p; // Если степень не превышает степень в числе, то считаем
+            i = i + 1; // счётчик +1
+        } else {
+            k = k + 1; // иначе выход из цикла
+        }
+    }
+
+    int binary[100]; // инициализируем массив чисел, в котором хранится число в двоичной степени
+    k = 0; // условие выхода
+    i = 0; // счётчик
+    while(k == 0) {
+        binary[i] = x % 2; // считаем первый множитель в формуле
+        x = x / 2;
+        if (x == 1) {
+            k = k + 1;
+            binary[i+1] = x;
+        }
+        i = i + 1;
+    }
+
+    int result = 1;
+    for (int j = 0; j <= i; j++) {
+        result = result * pow(nums[j], binary[j]); // перемножаем множители между собой
+    }
+    result = result % p; // получаем остаток, деля число из формулы на модуль
+
+    return result;
+}
+
 int main(){
     setlocale(LC_ALL, "Rus");
 
@@ -60,8 +100,10 @@ int main(){
         return 1;
     }
 
-    int result = algorithm(a, x, p); // вывод результата
-    cout << a << "^" << x << " mod " << p << " = " << result;
+    int result1 = algorithm1(a, x, p); // вывод результата
+    cout << "Алгоритм 1: " << a << "^" << x << " mod " << p << " = " << result1 << endl;
+    int result2 = algorithm2(a, x, p);
+    cout << "Алгоритм 2: " << a << "^" << x << " mod " << p << " = " << result2 << endl;
 
     return 0;
 }
