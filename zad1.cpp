@@ -1,4 +1,4 @@
-// Теорема Ферма и св-во сравнений(1 алгоритм)
+// Теорема Ферма и св-во сравнений(2 алгоритма)
 #include <iostream>
 #include <math.h>
 
@@ -6,77 +6,57 @@ using namespace std;
 
 bool CheckPrime(int p) { // проверка, является ли модуль простым числом
     
-    if (p <= 1) return false; // не может быть <=1
-    for (int i = 2; i * i <= p; ++i) { // начинаем с 2 до (квадратного корня из числа) <=p
-        if (p % i == 0) return false; // Если нет остатка, то не простое, иначе простое
+    if (p <= 1) return false; 
+    for (int i = 2; i * i <= p; ++i) { 
+        if (p % i == 0) return false;
     }
 
     return true;
 }
 
-int algorithm1(int a, int x, int p) { // Алгоритм нахождения остатка
+int algorithm1(int a, int x, int p) { // Алгоритм1 через уменьшение степени
 
-    int nums[100]; // инициализируем массив чисел, в котором хранятся уникальные остатки
-
-    nums[0] = a % p; // присваиваем 1 числу остаток
-    int k=0, n=1; // k - условие выхода | n - счётчик уникальных остатков
-    for (int i=1; k==0; i++) {
-        nums[i] = pow(a, i+1);
-        nums[i] = nums[i] % p;
-        if (nums[i] == nums[0]) { 
-            k = k + 1; // если найденный остаток = первому, то выходим из цикла
-        } else {
-            n = n + 1; // иначе увеличиваем счётчик
-        }
+    int result = 1;
+    a %= p;
+    while (x > 0) {
+        if (x % 2 == 1)
+            result = (result * a) % p;
+        x /= 2;
+        a = (a * a) % p;
     }
-
-    int result;
-    int num = x % n; // считаем, сколько полных циклов входит в степень
-    if (num == 0) { 
-        result = nums[n-1]; // если остаток 0, то результат = последнему уникальному остатку
-    } else {
-        result = nums[num-1]; // иначе результат = своему номеру уникального остатка
-    }
-
+    
     return result;
 }
 
-int algorithm2(int a, int x, int p) {
+int algorithm2(int a, int x, int p) { // Алгоритм2 через логарифм
 
-    int nums[100]; // инициализируем массив чисел, в котром хранится числовой ряд a
-
+    int nums[100]; // инициализируем массив чисел, в котором хранится числовой ряд a
     int stepen = 1; // для проверки, чтобы степень не превышала себя
-    nums[0] = a % p; // присваиваем 1 элементу значение 1 степени
-    int k=0; // условие выхода
-    int i=1; // счётчик
-    while(k == 0) {
-        stepen = stepen * 2; // возводим степень в квадрат
-        if (stepen <= x) {
-            nums[i] = (nums[i-1] * nums[i-1]) % p; // Если степень не превышает степень в числе, то считаем
-            i = i + 1; // счётчик +1
-        } else {
-            k = k + 1; // иначе выход из цикла
-        }
+    nums[0] = a % p;
+
+    int n=1;
+
+    while (stepen <= x) { // вычисляем числовой ряд для числа a
+        stepen *= 2;
+        nums[n] = (nums[n-1] * nums[n-1]) % p; 
+        n += 1;
     }
 
     int binary[100]; // инициализируем массив чисел, в котором хранится число в двоичной степени
-    k = 0; // условие выхода
-    i = 0; // счётчик
-    while(k == 0) {
-        binary[i] = x % 2; // считаем первый множитель в формуле
-        x = x / 2;
-        if (x == 1) {
-            k = k + 1;
-            binary[i+1] = x;
-        }
-        i = i + 1;
+    n = 0;
+    while (x != 1) { // переводчим степень в двоичное число
+        binary[n] = x % 2;
+        x /= 2;
+        n += 1;
     }
+    binary[n] = x;
+    n += 1;
 
     int result = 1;
-    for (int j = 0; j <= i; j++) {
-        result = result * pow(nums[j], binary[j]); // перемножаем множители между собой
+    for (int i = 0; i < n; ++i) { // используем конечную формулу алгоритма
+        result *= pow(nums[i], binary[i]);
     }
-    result = result % p; // получаем остаток, деля число из формулы на модуль
+    result %= p;
 
     return result;
 }
@@ -86,7 +66,7 @@ int main(){
 
     cout << "Нахождение остатка числа a^x mod p:" << endl;
     
-    int a, x, p; // ввод чисел
+    int a, x, p;
     cout << "Введите числа a, x и p: ";
     cin >> a >> x >> p;
 
@@ -100,7 +80,7 @@ int main(){
         return 1;
     }
 
-    int result1 = algorithm1(a, x, p); // вывод результата
+    int result1 = algorithm1(a, x, p);
     cout << "Алгоритм 1: " << a << "^" << x << " mod " << p << " = " << result1 << endl;
     int result2 = algorithm2(a, x, p);
     cout << "Алгоритм 2: " << a << "^" << x << " mod " << p << " = " << result2 << endl;
