@@ -5,7 +5,7 @@ using namespace std;
 
 void algorithm(int c, int m, int &gcd, int &d) { // Алгоритм нахождения НОД(c, m) и числа d 
 
-    int q;
+    int q; 
     vector<int> one = {m, 0};
     vector<int> two = {c, 1};
     vector<int> three(2);
