@@ -1,10 +1,14 @@
 #include <iostream>
+#include <vector>
+
 using namespace std;
 
 void algorithm(int c, int m, int &gcd, int &d) { // Алгоритм нахождения НОД(c, m) и числа d 
 
-    int one[] = {m, 0}, two[] = {c, 1}, three[2];
     int q;
+    vector<int> one = {m, 0};
+    vector<int> two = {c, 1};
+    vector<int> three(2);
     while (two[0] != 0) {
         q = one[0] / two[0];
         three[0] = one[0] % two[0];
