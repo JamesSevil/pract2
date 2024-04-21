@@ -5,16 +5,16 @@ using namespace std;
 
 int LastNum(int num, int nums[]) { // нахождение уникальной комбинации последних цифр в числе
 
-    nums[0] = pow(num, 1);
-    nums[0] %= 10;
-    int n = 1, i = 0;
-
-    do {
-        i++;
+    int k = 0, n = 0; // k - условие выхода из цикла / n - счётчик
+    for (int i = 0; k == 0; i++) {
         nums[i] = pow(num, i+1);
         nums[i] = nums[i] % 10;
-        n = n + 1;
-    } while (nums[i] != nums[i-1] || nums[i] != nums[i-2] || nums[i] != nums[i-3] || nums[i] != nums[i-4]);
+        if (nums[i] == nums[i-1] || nums[i] == nums[i-2] || nums[i] == nums[i-3] || nums[i] == nums[i-4]) {
+            k = k + 1;
+        } else {
+            n = n + 1;
+        }
+    }
 
     return n;
 }
@@ -47,7 +47,7 @@ int main(){
         c = nums2[step2-1];
     }
 
-    cout << "Последняя цифра: " << c;
+    cout << "Последняя цифра: " << c; // вывод последней цифры числа
     
     return 0;
 }
