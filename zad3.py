@@ -14,8 +14,8 @@ if (gcd(c, m) != 1):
 
 # реализация расширенного алгоритма и вывод его значений
 print("Табличное представление данных расширенного алгоритма Евклида:")
-print(f"{c} 1 0")
-print(f"{m} 0 1")
+print(f"A | {c} 1 0")
+print(f"B | {m} 0 1")
 q = 0
 one = [c, 1, 0]
 two = [m, 0, 1]
@@ -27,7 +27,7 @@ while (two[0] != 0):
     three[2] = one[2] - (q * two[2])
     one = two.copy()
     two = three.copy()
-    print(f"{three[0]} {three[1]} {three[2]} {q}")
+    print(f"T | {three[0]} {three[1]} {three[2]} {q}")
 
 if (one[1] < 0):
     one[1] += m

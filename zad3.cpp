@@ -24,8 +24,8 @@ int main(){
 
     // реализация расширенного алгоритма и вывод его значений
     cout << "Табличное представление данных расширенного алгоритма Евклида: " << endl;
-    cout << c << " " << "1 " << "0" << endl;
-    cout << m << " " << "0 " << "1" << endl;
+    cout << "A | " << c << " " << "1 " << "0" << endl;
+    cout << "B | " << m << " " << "0 " << "1" << endl;
     int q;
     vector<int> one = {c, 1, 0};
     vector<int> two = {m, 0, 1};
@@ -37,7 +37,7 @@ int main(){
         three[2] = one[2] - (q * two[2]);
         one = two;
         two = three;
-        cout << three[0] << " " << three[1] << " " << three[2] << " " << q << endl;
+        cout << "T | " << three[0] << " " << three[1] << " " << three[2] << " " << q << endl;
     }
     
     if (one[1] < 0) {
